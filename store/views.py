@@ -15,4 +15,4 @@ def cart(request):
 
 def checkout(request):
     context = {}
-    return render(request, 'store/checkout.html.html', context)
+    return render(request, 'store/checkout.html', context)
