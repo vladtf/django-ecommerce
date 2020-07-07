@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.conf.urls import static
 
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
@@ -15,7 +15,7 @@ class Product(models.Model):
     name = models.CharField(max_length=200, null=True)
     price = models.FloatField()
     digital = models.BooleanField(default=False, null=True, blank=False)
-    image = models.ImageField(null=True, blank=True)
+    image = models.ImageField(null=True, blank=True, default='placeholder.png')
 
     def __str__(self):
         return self.name
@@ -25,7 +25,7 @@ class Product(models.Model):
         try:
             url = self.image.url
         except:
-            url = ''
+            url = 'images/placeholder.png'
         return url
 
 
