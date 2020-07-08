@@ -26,7 +26,7 @@ class Product(models.Model):
         try:
             url = self.image.url
         except:
-            url = 'images/placeholder.png'
+            url = '/images/placeholder.png'
         return url
 
 
