@@ -6,7 +6,10 @@ import json
 
 def store(request):
     products = Product.objects.all()
-    context = {'products': products}
+
+    context = get_order_data(request)
+    context["products"] = products
+
     return render(request, 'store/store.html', context)
 
 
@@ -25,10 +28,13 @@ def get_order_data(request):
         customer = request.user.customer
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
+        cart_items = order.get_cart_items
     else:
         items = []
         order = {'get_cart_total': 0, 'get_cart_items': 0}
-    context = {'items': items, 'order': order}
+        cart_items = order['get_cart_items']
+
+    context = {'items': items, 'order': order, 'cart_items': cart_items}
     return context
 
 
