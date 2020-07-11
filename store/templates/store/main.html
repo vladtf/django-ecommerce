@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1"/>
 
     <script type="text/javascript">
-        var user = '{{ request.user }}'
+        var user = '{{ request.user }}';
 
         function getToken(name) {
             let cookieValue = null;
@@ -32,6 +32,38 @@
         }
 
         const csrftoken = getToken('csrftoken');
+
+
+        function getCookie(name) {
+            // Split cookie string and get all individual name=value pairs in an array
+            var cookies = document.cookie.split(";")
+
+            // loop trough the array elements
+            for (var i = 0; i < cookies.length; i++) {
+                var cookiePair = cookies[i].split("=");
+
+                // removing whitespaces at the beginning of the cookie name
+                // and compare it with the given string
+                if (name === cookiePair[0].trim()) {
+                    // decode the cookie value and return
+                    return decodeURIComponent(cookiePair[1]);
+                }
+            }
+
+            // return null if not found
+            return null;
+        }
+
+        var cart = JSON.parse(getCookie('cart'));
+
+        if (cart === undefined) {
+            cart = {};
+            console.log('Cart was created');
+            document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/";
+        }
+
+        console.log('Cart: ', cart);
+
     </script>
 
 </head>
