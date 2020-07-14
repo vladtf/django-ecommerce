@@ -46,6 +46,12 @@ def get_order_data(request):
         for i in cart:
             cart_items += cart[i]["quantity"]
 
+            product = Product.objects.get(id=i)
+            total = (product.price * cart[i]["quantity"])
+
+            order['get_cart_total'] += total
+            order['get_cart_items'] += cart[i]["quantity"]
+
     context = {'items': items, 'order': order, 'cart_items': cart_items}
     return context
 
