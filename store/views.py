@@ -44,13 +44,32 @@ def get_order_data(request):
         cart_items = order['get_cart_items']
 
         for i in cart:
-            cart_items += cart[i]["quantity"]
+            # prevent errors if product was deleted
+            try:
+                cart_items += cart[i]["quantity"]
 
-            product = Product.objects.get(id=i)
-            total = (product.price * cart[i]["quantity"])
+                product = Product.objects.get(id=i)
+                total = (product.price * cart[i]["quantity"])
 
-            order['get_cart_total'] += total
-            order['get_cart_items'] += cart[i]["quantity"]
+                order['get_cart_total'] += total
+                order['get_cart_items'] += cart[i]["quantity"]
+
+                item = {
+                    'product': {
+                        'id': product.id,
+                        'name': product.name,
+                        'price': product.price,
+                        'imageURL': product.imageURL
+                    },
+                    'quantity': cart[i]["quantity"],
+                    'get_total': total
+                }
+                items.append(item)
+
+                if product.digital == False:
+                    order['shipping'] = True
+            except:
+                pass
 
     context = {'items': items, 'order': order, 'cart_items': cart_items}
     return context
