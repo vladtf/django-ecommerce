@@ -3,7 +3,7 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-lg-6" >
+        <div class="col-lg-6">
             <div class="box-element" id="form-wrapper">
                 <form id="form">
                     {% csrf_token %}
@@ -66,8 +66,6 @@
                         <div style="flex:1"><p>x{{ item.quantity }}</p></div>
                     </div>
                 {% endfor %}
-
-
 
                 <h5>Items: {{ order.get_cart_items }}</h5>
                 <h5>Total: ${{ order.get_cart_total|floatformat:2 }}</h5>
@@ -140,20 +138,20 @@
             }
 
             var url = '/process_order/'
-            fetch(url,{
-                method:'POST',
-                headers:{
-                    'Content-Type':'application/json',
-                    'X-CSRFToken':csrftoken,
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken,
                 },
-                body:JSON.stringify({'form':userFormData, 'shipping':shippingInfo})
+                body: JSON.stringify({'form': userFormData, 'shipping': shippingInfo})
             })
-            .then((response) => response.json())
-            .then((data)=>{
-                console.log('Success',data);
-                alert('Transaction completed');
-                window.location.href = "{% url 'store' %}"
-            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log('Success', data);
+                    alert('Transaction completed');
+                    window.location.href = "{% url 'store' %}"
+                })
         }
     </script>
 
