@@ -146,12 +146,16 @@
                 },
                 body: JSON.stringify({'form': userFormData, 'shipping': shippingInfo})
             })
-                .then((response) => response.json())
-                .then((data) => {
-                    console.log('Success', data);
-                    alert('Transaction completed');
-                    window.location.href = "{% url 'store' %}"
-                })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('Success', data);
+                alert('Transaction completed');
+
+                cart = {}
+                document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/"
+
+                window.location.href = "{% url 'store' %}"
+            })
         }
     </script>
 

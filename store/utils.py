@@ -14,7 +14,6 @@ def cookieCart(request):
     cart_items = order['get_cart_items']
 
     for i in cart:
-        # prevent errors if product was deleted
         try:
             cart = json.loads(request.COOKIES["cart"])
         except:
@@ -54,3 +53,54 @@ def cookieCart(request):
                 pass
 
     return {'items': items, 'order': order, 'cart_items': cart_items}
+
+
+def cartData(request):
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        items = order.orderitem_set.all()
+        cart_items = order.get_cart_items
+    else:
+        cookieData = cookieCart(request)
+        cart_items = cookieData['cart_items']
+        order = cookieData['order']
+        items = cookieData['items']
+
+    products = Product.objects.all()
+    context = {'items': items, 'order': order, 'cart_items': cart_items, 'products': products}
+    return context
+
+
+def guestOrder(request, data):
+    print('User is not logged in...')
+
+    print('Cookies', request.COOKIES)
+
+    name = data['form']['name']
+    email = data['form']['email']
+
+    cookieData = cookieCart(request)
+    items = cookieData['items']
+
+    customer, created = Customer.objects.get_or_create(
+        email=email
+    )
+    customer.name = name
+    customer.save()
+
+    order = Order.objects.create(
+        customer=customer,
+        complete=False
+    )
+
+    for item in items:
+        product = Product.objects.get(id=item['product']['id'])
+
+        orderItem = OrderItem.objects.create(
+            product=product,
+            order=order,
+            quantity=item['quantity']
+        )
+
+    return customer, order
