@@ -1,11 +1,12 @@
-from django.shortcuts import render
+import datetime
+import json
+
 from django.http import JsonResponse
+from django.shortcuts import render
 # from django.views.decorators.csrf import csrf_exempt
 
 from store.models import *
-from .utils import cartData, cookieCart, guestOrder
-import json
-import datetime
+from .utils import cartData, guestOrder
 
 
 def store(request):
