@@ -1,10 +1,12 @@
 import datetime
 import json
 
-from django.http import JsonResponse
-from django.shortcuts import render
+from django.contrib import messages
+from django.contrib.auth import authenticate, login
+from django.http import JsonResponse, HttpResponseRedirect
+from django.shortcuts import render, redirect
 # from django.views.decorators.csrf import csrf_exempt
-
+from ecommerce import urls
 from store.models import *
 from .utils import cartData, guestOrder
 
@@ -29,6 +31,25 @@ def product(request, id):
     context['product'] = Product.objects.get(id=id)
 
     return render(request, 'store/product.html', context)
+
+
+def login_view(request):
+    context = {}
+    return render(request, 'store/login.html', context)
+
+
+def auth(request):
+    username = request.body['username']
+    password = request.body['password']
+
+    user = authenticate(request, username=username, password=password)
+
+    if user is not None:
+        login(request, user)
+        return redirect('store')
+    else:
+        messages.error('Failed to login!')
+        return redirect('login')
 
 
 def update_item(request):
