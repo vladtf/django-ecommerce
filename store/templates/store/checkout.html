@@ -61,7 +61,8 @@
                 {% for item in items %}
 
                     <div class="cart-row">
-                        <div style="flex:2"><img class="row-image" src="{{ item.product.imageURL }}" alt="">
+                        <div style="flex:2">
+                            <a href="{% url 'product' id=item.product.id %}"><img class="row-image" src="{{ item.product.imageURL }}" alt=""></a>
                         </div>
                         <div style="flex:2"><p>{{ item.product.name }}</p></div>
                         <div style="flex:1"><p>${{ item.product.price }}</p></div>

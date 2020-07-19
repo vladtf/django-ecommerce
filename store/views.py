@@ -25,8 +25,9 @@ def checkout(request):
 
 
 def product(request, id):
-    product = Product.objects.get(id=id)
-    context = {'product': product}
+    context = cartData(request)
+    context['product'] = Product.objects.get(id=id)
+
     return render(request, 'store/product.html', context)
 
 

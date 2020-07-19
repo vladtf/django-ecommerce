@@ -66,10 +66,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .cart-row {
     display: flex;
-    align-items: flex-stretch;
+    align-items: flex-start;
     padding-bottom: 10px;
     margin-bottom: 10px;
-    border-bottom: 1px solid #ececec;
+    border-bottom: 1px solid rgba(79, 134, 140, 0.38);
 
 }
 
