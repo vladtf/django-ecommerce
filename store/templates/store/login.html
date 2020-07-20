@@ -11,10 +11,11 @@
                 <input required type="text" class="form-control" placeholder="Username" name="username">
             </div>
             <div class="form-group">
-                <input required type="password" class="form-control" placeholder="Password" name="password" autocomplete="on">
+                <input required type="password" class="form-control" placeholder="Password" name="password"
+                       autocomplete="on">
             </div>
             <div class="form-group">
-                <button class="btn btn-primary btn-block" id="login-button">Log in</button>
+                <button class="btn btn-primary btn-block" id="login-button" type="submit">Log in</button>
             </div>
             <div class="clearfix">
                 <label class="float-left form-check-label"><input type="checkbox"> Remember me</label>
@@ -31,6 +32,13 @@
             e.preventDefault()
             console.log('Submit login data ...')
         })
+
+        {##}
+        {# var message = '{{ message }}'; #}
+        {##}
+        {#if (message !== '') {#}
+        {#    alert(message)#}
+        {# } #}
 
         document.getElementById('login-button').addEventListener('click', function (e) {
             var username = form.username.value
@@ -56,5 +64,6 @@
                     }
                 })
         })
+
     </script>
 {% endblock content %}
