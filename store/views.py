@@ -34,22 +34,22 @@ def product(request, id):
 
 
 def login_view(request):
-    context = {}
+    context = cartData(request)
+
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        username = data["username"]
+        password = data["password"]
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return JsonResponse('Login success', safe=False)
+        else:
+            return JsonResponse('Failed to login!', safe=False)
+
     return render(request, 'store/login.html', context)
-
-
-def auth(request):
-    username = request.body['username']
-    password = request.body['password']
-
-    user = authenticate(request, username=username, password=password)
-
-    if user is not None:
-        login(request, user)
-        return redirect('store')
-    else:
-        messages.error('Failed to login!')
-        return redirect('login')
 
 
 def update_item(request):
